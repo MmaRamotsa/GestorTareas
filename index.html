@@ -6,26 +6,49 @@
 	<!-- Bootstrap css-->
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <!--Google Icon Font-->
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Propeller css -->
   <link href="css/propeller.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<!-- Mis estilos -->
 	<link rel="stylesheet" href="css/estilos.css">
 
 </head>
 <body>
 	<header>
-		<h1 id="titulo">Mis Tareas</h1>
+		<h1 id="titulo">Mis Tareas <span class="small" id="numero"></span></h1>
 	</header>
+
+<ul id="listaTareas"></ul>
+
 <!-- Colored FAB button -->
+<div class="derecha-abajo">
 <button class="btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" type="button" id="addTarea"><i class="material-icons pmd-sm">add</i></button>
+</div>
+
+<!-- sección para el formulario de nueva tarea -->
+	<section id="datosEntrada">
+		<form>
+		  <div class="form-group">
+		    <label for="asunto">Asunto:</label>
+		    <input type="text" class="form-control" id="asunto">
+		  </div>
+		  <div class="form-group">
+		    <label for="detalle">Detalles:</label>
+		    <input type="text" class="form-control" id="detalle">
+		  </div>
+		  <div class="derecha-abajo">
+		  	<button type="submit" class="btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary"><i class="material-icons pmd-sm">check</i></button>
+		  </div>
+		</form>
+	</section>
+<!-- fin de nueva tarea -->
 	<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
 	<!-- Nuestro código se tiene que cargar después de Firebase-->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/propeller.min.js"></script>
-  <script src="js/codigo.js"></script>
+  <script type="text/javascript" src="js/codigo.js"></script>
 </body>
 </html>

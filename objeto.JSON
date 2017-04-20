@@ -1,0 +1,22 @@
+{
+	"tarea":[
+	  { "id":1,
+		  "asunto": "Llamar a la compañía de seguros",
+		  "detalle":"Preguntar por las nuevas pólizas",
+		  "tipo": "simple",
+		  "fechaLimite": "",
+		  "estado":0
+		},
+		{	"id":2,
+		  "asunto": "Compra",
+		  "detalle":"Hacer la compra",
+		  "tipo": "lista",
+		  "lista": ['patatas', 'naranjas'],
+		  "estado":0
+		}
+	],
+	"metadatos":{
+		"autor":"MAMG",
+		"ultimoId":"2"
+	}
+}

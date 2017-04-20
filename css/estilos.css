@@ -1,0 +1,15 @@
+.derecha-abajo{
+	display: block;
+	bottom:0;
+	text-align: right;
+}
+
+#datosEntrada{
+	display: none;
+	margin: 5px;
+	padding: 5px;
+	background-color: white;
+	border: 1px solid blue;
+	border-radius: 5px;
+}
+

@@ -1,4 +1,4 @@
-(function(){
+$(document).ready(function() {
  // Initializa Firebase
   var config = {
     apiKey: "AIzaSyDyhTlFeQUOn8DpH9rvjSkbilSNgV7z2Bk",
@@ -10,6 +10,33 @@
   };
   firebase.initializeApp(config);
 
+  //Hacemos referencia a la base de datos al objeto tarea
+  var ref = firebase.database().ref().child("tarea");
+  var refMetadatos = firebase.database().ref().child("metadatos");
+  var ulTareas = document.getElementById("listaTareas");
 
-  $("addTarea").on("click", )
+  //Sincronizar cambios de la lista
+  ref.on('child_added',snap => {
+    var li = document.createElement("li");
+    li.innerText = snap.val().asunto;
+    li.id = snap.key;
+    ulTareas.appendChild(li);
+  });
+
+  //Esto no funciona
+  // refMetadatos.on('child_changed',snap => {
+  //   var numChanged = document.getElementById(snap.key);
+  //   numChanged.innerText = snap.val();
+  // });
+
+
+  $("#addTarea").on("click", nuevaTarea);
 });
+
+function nuevaTarea(){
+  $("#datosEntrada").slideDown("slow");
+}
+
+function muestraTareas(){
+
+}
