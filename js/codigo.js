@@ -11,12 +11,18 @@ $(document).ready(function() {
   firebase.initializeApp(config);
 
   //Hacemos referencia a la base de datos al objeto tarea
-  var ref = firebase.database().ref().child("tarea");
-  var refMetadatos = firebase.database().ref().child("metadatos");
+  var ref = firebase.database();
+  //Con el método child apuntamos a un elemento de la base de datos.
+  var dbTareas = ref.ref().child("tarea");
+  var dbMetadatos = ref.ref().child("metadatos/numero");
   var ulTareas = document.getElementById("listaTareas");
 
+
+  var consulta = dbTareas.orderByChild("estado").equalTo("0").limitToFirst(1);
+  console.log(consulta);
+
   //Sincronizar cambios de la lista
-  ref.on('child_added',snap => {
+  dbTareas.on('child_added', snap => {
     var li = document.createElement("li");
     li.innerText = snap.val().asunto;
     li.id = snap.key;
@@ -24,19 +30,19 @@ $(document).ready(function() {
   });
 
   //Esto no funciona
-  // refMetadatos.on('child_changed',snap => {
-  //   var numChanged = document.getElementById(snap.key);
-  //   numChanged.innerText = snap.val();
-  // });
+  dbMetadatos.on('value',snap => {
+     var numChanged = document.getElementById(snap.key);
+     numChanged.innerText = "(" + snap.val() + ")";
+  });
 
+  $("#addTarea").on("click",nuevaTarea)
 
-  $("#addTarea").on("click", nuevaTarea);
 });
-
-function nuevaTarea(){
-  $("#datosEntrada").slideDown("slow");
-}
 
 function muestraTareas(){
 
+}
+
+function nuevaTarea(){
+  location.href = "nueva_tarea.html";
 }
