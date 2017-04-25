@@ -1,3 +1,6 @@
+var nuevoId, nuevoCont;
+var contador;
+var ref, refTareas;
 $(document).ready(function() {
  // Initializa Firebase
   var config = {
@@ -10,38 +13,50 @@ $(document).ready(function() {
   };
   firebase.initializeApp(config);
 
-
-  $("#alta").on("click",altaTarea);
-  $("#cancelar").on("click",cancelar);
-});
-
-function altaTarea(){
-  var nuevoId;
-  //Hacemos referencia a la base de datos al objeto tarea
-  var ref = firebase.database();
-  //Con el método child apuntamos a un elemento de la base de datos.
-  var metadatos = ref.ref("metadatos");
+  ref = firebase.database();
+  //---------------------------------------------------------
+  //Hacemos referencia a la base de datos al objeto metadatos
+  // y leemos los últimos valores para el id y para elcontador
   var ultimoid = ref.ref("metadatos/ultimoId");
   var contador = ref.ref("metadatos/contador");
 
   ultimoid.on("value", snap=>{
     nuevoId = (+snap.val() +1).toString();
   });
+  contador.on("value", snap=>{
+    nuevoCont = (+snap.val() +1).toString();
+  });
+  //---------------------------------------------------------
 
-  var txtasunto = $("#asunto").val();
-  var detalle = $("#detalle").val();
+  $("#alta").on("click",altaTarea);
+  $("#cancelar").on("click",cancelar);
+});
 
+
+function altaTarea(){
+  var txtAsunto = $("#asunto").val();
+  var txtDetalle = $("#detalle").val();
+  var txtFechaLimite = $("#fecha-limite").val();
+  var lista = "simple";
+
+  if ($("#lista").attr('checked')){
+    lista = "lista";
+  }
 
   if (validaEntrada()){
-    firebase.database().ref("tarea/"+nuevoId).set({
-      asunto: txtasunto,
-      detalle: detalle,
+    //Se añade un nuevo elemento a la base de datos tarea
+    ref.ref("tarea/"+nuevoId).set({
+      asunto: txtAsunto,
+      detalle: txtDetalle,
+      fechaLimite: txtFechaLimite,
       estado: 0,
-      tipo: "simple"
+      tipo: lista
     });
-    //TODO: CAMBIAR EL VALOR DE ULTIMOID EN METADATOS 
-    ultimoid = ref.ref("metadatos").set({
-      ultimoId:nuevoId
+
+    //Además de añadir la tarea tenemos que cambiar los valores utimoId y contador
+    ultimoid = ref.ref("metadatos").update({
+      ultimoId: nuevoId.toString(),
+      contador: nuevoCont.toString()
     });
     //Una vez dada de alta volvemos a la página de tareas
     location.href ="index.html";
@@ -53,7 +68,17 @@ function altaTarea(){
 
 function validaEntrada(arg){
   var txtasunto = $("#asunto").val();
+  var txtfecha = $("#fecha-limite").val();
+
   return ((txtasunto=="")?false: true);
+
+  // if (txtfecha.trim()<>""){
+
+  // }
+}
+
+function validaFecha(fecha){
+
 }
 
 function cancelar(){
