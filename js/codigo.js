@@ -1,5 +1,5 @@
-var contador;
-var ref, refTareas;
+var contador=0;
+var ref, refTareas, numTareasPendientes;
 
 $(document).ready(function() {
  // Initializa Firebase
@@ -17,24 +17,35 @@ $(document).ready(function() {
   ref = firebase.database();
   //Con el método child apuntamos a un elemento de la base de datos; en este caso tarea.
   refTareas = ref.ref().child("tarea");
-  var refContador = ref.ref().child("metadatos/contador");
+
+
+  //Al eliminar una tarea desaparece de la lista.
+  refTareas.on('child_removed', snap => {
+    var filaAEliminar = document.getElementById(snap.key);
+    filaAEliminar.remove();
+    contador--;
+  });
 
   //Mostramos todas las tareas que hay pendientes
   mostrarTareas();
 
-  //Muestra el número total de tareas
-  refContador.on('value',snap => {
-     var idContador = document.getElementById(snap.key);
-     idContador.innerText = "(" + snap.val() + ")";
-  });
-
   $("#addTarea").on("click",nuevaTarea);
+
+  $("#editar").on("click",editaTarea);
+
+  $("#cancelar").on("click",escondeFormulario);
 
 });
 
+//Esta función muestra todas las tareas en una tabla.
+//TODO: Las tareas que están terminadas deberían mostrarse en otro color o tachadas
+//Pero todavía no está hecho.
 function mostrarTareas(){
   var tbodyTareas = document.getElementById("tabla-listatareas");
+  var numTareas = document.getElementById("contador");
+  var numTareasPendientes=0;
 
+  //Al añadir una tarea, se crea una nueva fila en la tabla.
   refTareas.on('child_added', snap => {
     var trTarea = document.createElement("tr");
     var tdAsunto = document.createElement("td");
@@ -43,16 +54,29 @@ function mostrarTareas(){
     var tdBtnMark = document.createElement("td");
     var tdBtnDelete = document.createElement("td");
 
-    var btnEdit ="<i class='individual material-icons'>mode_edit</i>";
-    var btnMark ="<i class='individual material-icons'>check</i>";
-    var btnDelete ="<i class='individual material-icons' onclick='borraEstaTarea(" +  snap.key +")''>delete_forever</i>";
+    var btn = '<button class="btn pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-sm btn-primary" type="button">';
+    var btnDelete = '<button class="btn pmd-btn-fab pmd-btn-flat pmd-ripple-effect btn-sm btn-danger" type="button">';
 
+
+    var btnEdit = btn +
+                  "<i class='material-icons pmd-xs' onclick='editaEstaTarea(" + snap.key +")' >mode_edit</i>" +
+                  "</button>";
+    var btnMark = btn +
+                  "<i class='material-icons pmd-xs' onclick='marcaCompletadaEstaTarea(" + snap.key +")' >check</i>" +
+                  "</button>";
+    btnDelete = btnDelete +
+                  "<i class='material-icons pmd-xs' onclick='borraEstaTarea(" +  snap.key +")''>delete_forever</i>" +
+                  "</button>";
+
+    trTarea.id = snap.key;
     tdAsunto.innerText = snap.val().asunto;
     tdFecha.innerText =  (snap.val().fechaLimite ==undefined)?"---":snap.val().fechaLimite;
     tdBtnEdit.innerHTML = btnEdit;
     tdBtnMark.innerHTML = btnMark;
     tdBtnDelete.innerHTML = btnDelete;
 
+    numTareasPendientes++;
+    numTareas.innerHTML = "(" + numTareasPendientes + ")";
     trTarea.id = snap.key;
     trTarea.appendChild(tdAsunto);
     trTarea.appendChild(tdFecha);
@@ -74,8 +98,36 @@ function nuevaTarea(){
 function borraEstaTarea(id){
   var tarea = ref.ref("tarea/"+id);
   tarea.remove();
+  contador--;
+}
 
-  //Además de eliminar la tarea tenemos que decrementar el valor de contador
 
-  //location.reload();
+function marcaCompletadaEstaTarea(id){
+  alert("Marca completada la tarea: " + id);
+}
+
+function editaEstaTarea(id){
+  var tarea = refTareas.child(id);
+
+  //Muestra el formulario con los datos de la tarea
+  //Ponemos los datos en el formulario
+  tarea.once("value", snap => {
+    var datos = snap.val();
+
+    $("#asunto").val(datos.asunto);
+    $("#detalle").val(datos.detalle);
+    $("#fecha-limite").val(datos.fechaLimite);
+  });
+
+
+  //Mostramos el formulario
+  $("#datosEntrada").css("display","block");
+}
+
+function escondeFormulario(){
+  $("#datosEntrada").css("display","none");
+}
+
+function editaTarea(){
+  //para guardar los cambios en la tarea
 }
