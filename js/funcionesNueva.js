@@ -49,25 +49,7 @@ function altaTarea(){
     });
     //Una vez dada de alta volvemos a la página de tareas
     location.href ="index.html";
-  } else{
-    alert("Debe incluir un texto el asunto.");
-    $("#asunto").focus();
   }
-}
-
-function validaEntrada(arg){
-  var txtasunto = $("#asunto").val();
-  var txtfecha = $("#fecha-limite").val();
-
-  return ((txtasunto=="")?false: true);
-
-  // if (txtfecha.trim()<>""){
-
-  // }
-}
-
-function validaFecha(fecha){
-
 }
 
 function cancelar(){

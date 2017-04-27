@@ -1,3 +1,6 @@
+body {
+	height:100%;
+}
 .derecha-abajo{
 	display: block;
 	bottom:0;
@@ -22,6 +25,10 @@
 	width: 97%;
 }
 
+#icon-github{
+	text-align:right;
+}
+
 .pendiente {
 	color: #d9534f;
 }
@@ -29,4 +36,14 @@
 .completada {
 	color: grey;
 	text-decoration: line-through;
+}
+
+#footer {
+	position:absolute;
+	bottom:0;
+	margin-top:10px;
+	padding-top:10px;
+  height: 60px;
+  width:100%;
+  background-color: #f5f5f5;
 }
