@@ -39,15 +39,56 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
-
 <!-- -->
+		<!--  FORMULARIO DE EDICIÓN -->
+			<!-- sección para el formulario de editar tarea -->
+			<section id="datosEntrada">
+				<form>
+					<input type="hidden" id="idtarea" >
+					<div class="form-group">
+				    <label for="asunto">Asunto:</label>
+				    <input type="text" class="form-control" id="asunto" required>
+				  </div>
+				  <div class="form-group">
+				    <label for="detalle">Detalles:</label>
+				    <textarea class="form-control" id="detalle" rows="5"></textarea>
+				  </div>
+				  <div class="form-group">
+				    <label for="fecha-limite">Fecha límite:</label>
+				    <input type="date" class="form-control" id="fecha-limite" maxlength="10" placeholder="dd/mm/aaaa">
+				  </div>
+				</form>
+				<!-- Botones para Aceptar/Cancelar -->
+				<div class="derecha-abajo">
+						<button type="submit" class="btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" id="editar"><i class=material-icons pmd-sm">check</i></button>
+						<button type="submit" class="btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" id="cancelar"><i class="material-icons" pmd-sm">cancel</i></button>
+				</div>
+			</section>
+<!-- FIN DE FORMULARIO DE EDICIÓN -->
 	<header>
 		<h1 id="titulo">Mis Tareas <small class="text-muted" id="contador"></small></h1>
 	</header>
+<!-- Modal para mostrar la descripción de la tarea -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title"><!-- Modal Header --></h4>
+      </div>
+      <div class="modal-body">
+        <p id="modal-detalle"><!-- Some text in the modal.--></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- -->
 	<div class="container">
 		<div class="row">
-			<section class="col-sm-5">
+			<div class="col-sm-1"><!-- columna de separación --></div>
+			<section class="col-sm-10">
 				<table class="table table-hover">
 					<th>
 						<tr>
@@ -66,33 +107,10 @@
 				</div>
 			</section>
 			<div class="col-sm-1"><!-- columna de separación --></div>
-<!-- sección para el formulario de editar tarea -->
-			<section class="col-sm-5" id="datosEntrada">
-				<form>
-					<div class="form-group">
-				    <label for="asunto">Asunto:</label>
-				    <input type="text" class="form-control" id="asunto" required>
-				  </div>
-				  <div class="form-group">
-				    <label for="detalle">Detalles:</label>
-				    <textarea class="form-control" id="detalle" rows="5"></textarea>
-				  </div>
-				  <div class="form-group">
-				    <label for="fecha-limite">Fecha límite:</label>
-				    <input type="text" class="form-control" id="fecha-limite" maxlength="10" placeholder="dd/mm/aaaa">
-				  </div>
-				  <div class="form-group">
-		  				<label><input type="checkbox" value="lista">Añadir lista</label>
-					</div>
-				</form>
-				<!-- Botones para Aceptar/Cancelar -->
-				<div class="derecha-abajo">
-						<button type="submit" class="btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" id="editar"><i class=material-icons pmd-sm">check</i></button>
-						<button type="submit" class="btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" id="cancelar"><i class="material-icons" pmd-sm">cancel</i></button>
-				</div>
-			</section>
-		</div> <!-- row-->
-	</div> <!-- Fin de caontainer -->
+		</div>
+	</div>
+
+
 <!-- fin de editar tarea -->
 	<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
 	<!-- Nuestro código se tiene que cargar después de Firebase-->

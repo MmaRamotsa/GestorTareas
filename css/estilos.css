@@ -9,10 +9,24 @@
 }
 
 #datosEntrada{
-	display:none; /*Solo lo mostramos cuando vamos a editar una tarea*/
-	margin: 0;
+	display: none;
+	position: relative;
+	z-index: 1;
+	top: 0;
+	right:0;
+	margin: 10px;
 	padding: 10px;
-	background-color: white;
-	/* border: 1px solid blue; */
+	background-color: #f27874;
+	border: 1px solid #761c19;
 	border-radius: 5px;
+	width: 97%;
+}
+
+.pendiente {
+	color: #d9534f;
+}
+
+.completada {
+	color: grey;
+	text-decoration: line-through;
 }

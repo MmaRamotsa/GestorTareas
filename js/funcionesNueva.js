@@ -1,6 +1,6 @@
-var nuevoId, nuevoCont;
-var contador;
+//TODO: Me faltan todas las validaciones
 var ref, refTareas;
+var nuevoId;
 $(document).ready(function() {
  // Initializa Firebase
   var config = {
@@ -16,18 +16,13 @@ $(document).ready(function() {
   ref = firebase.database();
   //---------------------------------------------------------
   //Hacemos referencia a la base de datos al objeto metadatos
-  // y leemos los últimos valores para el id y para elcontador
-  var ultimoid = ref.ref("metadatos/ultimoId");
-  var contador = ref.ref("metadatos/contador");
+  // y leemos el último valor para el id.
+  var ultimoId = ref.ref("metadatos/ultimoId");
 
-  ultimoid.on("value", snap=>{
+  ultimoId.on("value", snap=>{
     nuevoId = (+snap.val() +1).toString();
   });
-  contador.on("value", snap=>{
-    nuevoCont = (+snap.val() +1).toString();
-  });
-  //---------------------------------------------------------
-
+  //Los botones alta y cancelar
   $("#alta").on("click",altaTarea);
   $("#cancelar").on("click",cancelar);
 });
@@ -37,11 +32,6 @@ function altaTarea(){
   var txtAsunto = $("#asunto").val();
   var txtDetalle = $("#detalle").val();
   var txtFechaLimite = $("#fecha-limite").val();
-  var lista = "simple";
-
-  if ($("#lista").attr('checked')){
-    lista = "lista";
-  }
 
   if (validaEntrada()){
     //Se añade un nuevo elemento a la base de datos tarea
@@ -50,13 +40,12 @@ function altaTarea(){
       detalle: txtDetalle,
       fechaLimite: txtFechaLimite,
       estado: 0,
-      tipo: lista
+      tipo: "simple"
     });
 
     //Además de añadir la tarea tenemos que cambiar los valores utimoId y contador
-    ultimoid = ref.ref("metadatos").update({
-      ultimoId: nuevoId.toString(),
-      contador: nuevoCont.toString()
+    ref.ref("metadatos").update({
+      ultimoId: nuevoId.toString()
     });
     //Una vez dada de alta volvemos a la página de tareas
     location.href ="index.html";
