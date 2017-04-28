@@ -196,17 +196,26 @@ function editaEstaTarea(id){
   //Ponemos los datos en el formulario
   tarea.once("value", snap => {
     var datos = snap.val();
+    if (datos.fechaLimite !=""){
+      var fechaPartida = datos.fechaLimite.split('/');
+      var mes = "0" + fechaPartida[1];
+      var dia = "0" + fechaPartida[0];
 
+      mes = mes.substr(mes.length-2,2);
+      dia = dia.substr(dia.length-2,2);
+      $("#fecha-limite").val(fechaPartida[2] + "-" + mes +"-"+ dia);
+    } else{
+      $("#fecha-limite").val(datos.fechaLimite)
+    }
     $("#asunto").val(datos.asunto);
     $("#detalle").val(datos.detalle);
-    $("#fecha-limite").val(datos.fechaLimite);
     $("#idtarea").val(id);
   });
 
   //Mostramos el formulario
   //$("#datosEntrada").css("visibility","visible");
   $("#datosEntrada").slideDown("slow");
-
+  $("#asunto").focus();
 }
 
 function escondeFormulario(){
@@ -215,12 +224,19 @@ function escondeFormulario(){
 }
 
 function guardarCambios(){
-  refTareas.child($("#idtarea").val()).update({
-    asunto: $("#asunto").val(),
-    detalle: $("#detalle").val(),
-    fechaLimite:  $("#fecha-limite").val()
-  });
-  escondeFormulario();
+  var txtFechaLimite = $("#fecha-limite").val();
+  if (txtFechaLimite!=""){
+    var fecha = new Date($("#fecha-limite").val());
+    txtFechaLimite = fecha.toLocaleDateString();
+  }
+  if (validaEntrada()){
+    refTareas.child($("#idtarea").val()).update({
+      asunto: $("#asunto").val(),
+      detalle: $("#detalle").val(),
+      fechaLimite: txtFechaLimite
+    });
+    escondeFormulario();
+  }
 }
 
 function actualizaTareasPendientes(arg){

@@ -6,17 +6,9 @@
 		  "tipo": "simple",
 		  "fechaLimite": "",
 		  "estado":0
-		},
-		{	"id":2,
-		  "asunto": "Compra",
-		  "detalle":"Hacer la compra",
-		  "tipo": "lista",
-		  "lista": ['patatas', 'naranjas'],
-		  "estado":0
 		}
 	],
 	"metadatos":{
-		"autor":"MAMG",
-		"ultimoId":"2"
+		"ultimoId":"1"
 	}
 }

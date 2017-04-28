@@ -33,12 +33,14 @@ function altaTarea(){
   var txtDetalle = $("#detalle").val();
   var txtFechaLimite = $("#fecha-limite").val();
 
+  var fecha = new Date($("#fecha-limite").val());
+
   if (validaEntrada()){
     //Se añade un nuevo elemento a la base de datos tarea
     ref.ref("tarea/"+nuevoId).set({
       asunto: txtAsunto,
       detalle: txtDetalle,
-      fechaLimite: txtFechaLimite,
+      fechaLimite: fecha.toLocaleDateString(),
       estado: 0,
       tipo: "simple"
     });

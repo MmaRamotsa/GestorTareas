@@ -5,11 +5,13 @@ function validaEntrada(arg){
   //Comprobamos el asunto. Si no es válido ponemos el foco en el campo.
   if (!validaAsunto()) {
     valid = false;
+    $("#div-asunto").addClass("has-warning");
     $("#asunto").focus();
   }
   //Comprobamos la fecha.
   if (!validaFecha()) {
     if (valid){ $("#fecha-limite").focus();}
+    $("#div-fecha-limite").addClass("has-warning");
     valid = false;
   }
   return valid;
@@ -29,15 +31,17 @@ function validaFecha(){
   var fecha = new Date($("#fecha-limite").val());
   var valid;
 
-  if (fecha==""){
-    //La fecha no es dato obligatorio. 
+  if ($("#fecha-limite").val()==""){
+    //La fecha no es dato obligatorio.
     valid=true;
   } else{
     //Comprobamos que es una fecha posterior a la actual
-      if ((fecha.getTime()<fechaActual.getTime())){
-        alert("La fecha que has introducido está en el pasado.");
-        valid=false;
-      }
+    if ((fecha.getTime()<fechaActual.getTime())){
+      alert("La fecha que has introducido está en el pasado.");
+      valid=false;
+    } else {
+      valid=true;
+    }
   }
   return valid;
 }
